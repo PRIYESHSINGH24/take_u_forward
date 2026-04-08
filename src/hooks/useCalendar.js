@@ -1,5 +1,6 @@
 'use client';
 import { useState, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 
 /**
  * Custom hook for calendar month navigation
@@ -9,6 +10,22 @@ export default function useCalendar() {
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [direction, setDirection] = useState(0); // -1 = prev, 1 = next, 0 = initial
+
+  const triggerTransition = (updateFn, changeDir) => {
+    if (document.startViewTransition) {
+      document.documentElement.dataset.flipDirection = changeDir === 1 ? 'next' : 'prev';
+      const transition = document.startViewTransition(() => {
+        flushSync(() => {
+          updateFn();
+        });
+      });
+      transition.finished.finally(() => {
+        delete document.documentElement.dataset.flipDirection;
+      });
+    } else {
+      updateFn();
+    }
+  };
 
   const goToPrevMonth = useCallback(() => {
     setDirection(-1);

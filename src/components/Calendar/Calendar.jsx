@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Calendar.module.css';
 import SpiralBinding from './SpiralBinding';
 import CalendarHero from './CalendarHero';
@@ -12,6 +13,25 @@ import useNotes from '@/hooks/useNotes';
 import useStickers from '@/hooks/useStickers';
 import monthThemes from '@/data/monthThemes';
 import StickerDrawer from './StickerDrawer';
+import StickerDrawer from './StickerDrawer';
+
+const pageVariants = {
+  enter: (dir) => ({
+    y: dir > 0 ? -25 : 25,
+    opacity: 0,
+    scale: 0.98,
+  }),
+  center: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (dir) => ({
+    y: dir < 0 ? -25 : 25,
+    opacity: 0,
+    scale: 0.98,
+  })
+};
 
 export default function Calendar() {
   const {
@@ -110,10 +130,21 @@ export default function Calendar() {
       <SpiralBinding />
 
       <div className={styles.calendarBody}>
-        <div 
-          key={`${currentYear}-${currentMonth}`}
-          className={`${styles.pageFlipper} ${direction === 1 ? styles.flipNext : direction === -1 ? styles.flipPrev : ''}`}
-        >
+        <AnimatePresence mode="wait" initial={false} custom={direction}>
+          <motion.div 
+            key={`${currentYear}-${currentMonth}`}
+            custom={direction}
+            variants={pageVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              y: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+              scale: { duration: 0.2 }
+            }}
+            className={styles.pageFlipper}
+          >
           <CalendarHero
             month={currentMonth}
             year={currentYear}
@@ -158,8 +189,10 @@ export default function Calendar() {
 
             <StickerDrawer />
           </div>
+        </motion.div>
+        </AnimatePresence>
 
-          <div className={styles.swipeHint}>
+        <div className={styles.swipeHint}>
             ← Swipe to change month →
           </div>
 
@@ -168,6 +201,5 @@ export default function Calendar() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
