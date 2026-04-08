@@ -1,0 +1,335 @@
+.gridContainer {
+  padding: var(--space-md) var(--space-lg);
+}
+
+/* Day headers */
+.dayHeaders {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  margin-bottom: var(--space-sm);
+}
+
+.dayHeader {
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-tertiary);
+  padding: var(--space-xs) 0;
+}
+
+.dayHeader.weekend {
+  color: var(--accent);
+}
+
+/* Date grid */
+.dateGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+/* Individual day cells */
+.dayCell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  min-height: 44px;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dayCell:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.dayCell:active {
+  transform: scale(0.92);
+}
+
+/* Other month days */
+.dayCell.otherMonth {
+  color: var(--text-tertiary);
+  opacity: 0.35;
+  font-weight: 500;
+}
+
+.dayCell.otherMonth:hover {
+  opacity: 0.6;
+  transform: translateY(-1px) scale(1.04);
+}
+
+/* Weekend */
+.dayCell.weekend {
+  color: var(--accent);
+}
+
+/* Today */
+.dayCell.today {
+  font-weight: 800;
+  position: relative;
+}
+
+.dayCell.today::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* ===== RANGE SELECTION ===== */
+
+/* Start date — cute pill/circle with bounce */
+.dayCell.rangeStart {
+  background: var(--accent-gradient);
+  color: #FFFFFF !important;
+  border-radius: 50%;
+  font-weight: 800;
+  box-shadow: 0 4px 16px var(--accent-glow);
+  transform: scale(1.15);
+  z-index: 2;
+  animation: datePopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.dayCell.rangeStart:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.dayCell.rangeStart::after { display: none; }
+
+/* End date */
+.dayCell.rangeEnd {
+  background: var(--accent-gradient);
+  color: #FFFFFF !important;
+  border-radius: 50%;
+  font-weight: 800;
+  box-shadow: 0 4px 16px var(--accent-glow);
+  transform: scale(1.15);
+  z-index: 2;
+  animation: datePopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.dayCell.rangeEnd:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.dayCell.rangeEnd::after { display: none; }
+
+/* In-range — soft pastel band */
+.dayCell.inRange {
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  position: relative;
+}
+
+.dayCell.inRange:hover {
+  background: var(--accent-light);
+  filter: brightness(0.96);
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* Hover preview when start is selected */
+.dayCell.hoverRange {
+  background: var(--accent-light);
+  opacity: 0.5;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes datePopIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.stickersContainer {
+  position: absolute;
+  bottom: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+  width: 100%;
+  pointer-events: none; /* Let clicks pass through unless on the sticker itself */
+}
+
+.miniSticker {
+  font-size: 0.75rem;
+  line-height: 1;
+  pointer-events: auto; /* Re-enable clicks so we can remove them */
+  cursor: pointer;
+  animation: bounceIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+
+.miniSticker:hover {
+  transform: scale(1.4) translateY(-2px);
+  z-index: 10;
+}
+
+
+/* Holiday marker */
+.holidayDot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.55rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+
+/* Holiday tooltip — cute rounded */
+.dayCell .tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.dayCell .tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--bg-card);
+}
+
+.dayCell:hover .tooltip {
+  display: block;
+  animation: tooltipIn 0.25s ease both;
+}
+
+@keyframes tooltipIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Selection info bar */
+.selectionInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  margin-top: var(--space-sm);
+  background: var(--accent-light);
+  border-radius: var(--radius-md);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  animation: fadeIn 0.3s ease;
+}
+
+.selectionText {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.selectionText .icon {
+  font-size: 1rem;
+}
+
+.clearBtn {
+  background: var(--bg-card);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  padding: 5px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.clearBtn:hover {
+  background: var(--accent);
+  color: #FFFFFF;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.clearBtn:active {
+  transform: scale(0.95);
+}
+
+/* Grid entrance animation */
+.animateGrid {
+  animation: gridFlipIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes gridFlipIn {
+  from { 
+    opacity: 0; 
+    transform: perspective(800px) rotateX(-8deg) translateY(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: perspective(800px) rotateX(0) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .gridContainer {
+    padding: var(--space-sm) var(--space-md);
+  }
+  .dayCell {
+    min-height: 38px;
+    font-size: 0.82rem;
+    padding: 6px 2px;
+    border-radius: var(--radius-sm);
+  }
+  .dayHeader {
+    font-size: 0.6rem;
+  }
+  .selectionInfo {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    font-size: 0.72rem;
+  }
+}

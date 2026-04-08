@@ -1,0 +1,66 @@
+.drawer {
+  background: var(--bg-card);
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1.5px dashed var(--border-light);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stickerList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.sticker {
+  font-size: 1.5rem;
+  cursor: grab;
+  transition: transform var(--transition-fast);
+  user-select: none;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.sticker:hover {
+  transform: scale(1.3) rotate(5deg);
+}
+
+.sticker:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+/* Add style for when a sticker is being dragged out */
+.sticker.dragging {
+  opacity: 0.5;
+}
+
+.instruction {
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  margin-left: auto; /* Push to the right */
+}
+
+@media (max-width: 480px) {
+  .drawer {
+    padding: var(--space-sm) var(--space-md);
+  }
+  .sticker {
+    font-size: 1.3rem;
+  }
+  .instruction {
+    display: none; /* Hide on mobile to save space */
+  }
+}

@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗓️ Interactive Wall Calendar Component
 
-## Getting Started
+A polished, interactive React/Next.js calendar component inspired by physical wall calendars. Built with **Next.js 16 (App Router)** and **vanilla CSS modules** — no Tailwind, no component libraries.
 
-First, run the development server:
+![Calendar Desktop View](./docs/desktop.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+### Core Requirements
+- **Wall Calendar Aesthetic**: Spiral binding, wave overlays, seasonal gradient hero, paper shadow
+- **Day Range Selector**: Click two dates to select a range with clear visual states for start, end, and in-between days
+- **Integrated Notes Section**: Monthly notes and range-specific notes with ruled-line aesthetic, persisted via `localStorage`
+- **Fully Responsive Design**: Adapts flawlessly from desktop (centered paper) to mobile (stacked, touch-friendly)
+
+### Creative Extras
+| Feature | Description |
+|---|---|
+| 🎨 **Seasonal Themes** | Each month gets a unique gradient hero and accent color palette |
+| 🌗 **Dark/Light Mode** | Toggle with smooth transitions; preference persisted |
+| 📌 **Holiday Markers** | Emoji dots on holidays with tooltip on hover |
+| 🔄 **Page Flip Animation** | CSS 3D perspective animation when switching months |
+| 📱 **Touch Gestures** | Swipe left/right to change months on mobile |
+| ⌨️ **Keyboard Navigation** | Arrow keys to navigate months |
+| 💾 **Persistence** | Notes and theme preference survive page refresh |
+| 🖨️ **Print-Friendly** | `@media print` stylesheet for clean printout |
+
+---
+
+## 🏗️ Architecture
+
+```
+src/
+├── app/
+│   ├── layout.js          # Root layout, fonts, SEO meta
+│   ├── page.js            # Main page (dynamic imports, SSR-safe)
+│   └── globals.css        # Design system: tokens, themes, animations
+├── components/
+│   ├── Calendar/
+│   │   ├── Calendar.jsx           # Orchestrator (state, gestures, keyboard)
+│   │   ├── CalendarHero.jsx       # Gradient hero + month overlay
+│   │   ├── CalendarGrid.jsx       # 7-column date grid with range selection
+│   │   ├── NotesPanel.jsx         # Monthly + range notes with ruled lines
+│   │   ├── MonthNav.jsx           # ‹ › Today navigation
+│   │   ├── SpiralBinding.jsx      # Decorative spiral rings + wall hook
+│   │   └── *.module.css           # Scoped styles for each component
+│   └── ThemeSwitcher/
+│       ├── ThemeSwitcher.jsx      # Dark/Light toggle
+│       └── ThemeSwitcher.module.css
+├── hooks/
+│   ├── useCalendar.js     # Month navigation state + direction tracking
+│   ├── useRangeSelect.js  # Two-click range selection logic
+│   └── useNotes.js        # Notes CRUD + localStorage persistence
+├── utils/
+│   ├── dateHelpers.js     # Grid generation, date comparisons, formatters
+│   └── holidays.js        # Static holiday data with emoji markers
+└── data/
+    └── monthThemes.js     # 12 gradient themes + accent color palettes
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Design Decisions
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Vanilla CSS Modules**: Maximum control over styling with zero runtime cost. Each component is fully scoped.
+- **No external dependencies**: Only `next`, `react`, and `react-dom`. Everything is custom-built.
+- **Dynamic imports with `ssr: false`**: Calendar uses `localStorage`, so we avoid hydration mismatches.
+- **CSS Custom Properties**: All colors, spacing, and shadows defined as tokens for easy theming.
+- **Gradient hero instead of images**: Pure CSS gradients with floating shapes ensure instant load and consistent appearance.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🚀 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
+- Node.js 18+ and npm 9+
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Clone the repository
+git clone <repo-url>
+cd take_u_forward_intern
 
-## Deploy on Vercel
+# Install dependencies
+npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Start development server
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Production Build
+
+```bash
+npm run build
+npm start
+```
+
+### Deploy to Vercel
+
+```bash
+npx vercel
+```
+
+---
+
+## 🎮 How to Use
+
+1. **Navigate months**: Click ‹ › buttons, press ← → arrow keys, or swipe on mobile
+2. **Select a date range**: Click a start date, then click an end date — the range highlights automatically
+3. **Clear selection**: Click the "Clear" button in the selection info bar
+4. **Add notes**: Use the "Monthly" tab for general notes, or select a range and switch to "Range" for range-specific notes
+5. **Toggle theme**: Click the 🌙/☀️ button in the top-right corner
+6. **Hover holidays**: Hover over emoji markers to see holiday names
+
+---
+
+## 📱 Responsive Breakpoints
+
+| Breakpoint | Layout |
+|---|---|
+| `> 768px` | Desktop — centered 520px max-width paper card |
+| `480–768px` | Tablet — full-width, slightly reduced hero |
+| `< 480px` | Mobile — compact hero, touch-optimized grid, swipe hint |
+
+---
+
+## 🧪 Tech Stack
+
+- **Framework**: Next.js 16.2 (App Router)
+- **Language**: JavaScript (ES2022)
+- **Styling**: Vanilla CSS Modules
+- **State Management**: React hooks (`useState`, `useCallback`, `useMemo`, `useEffect`)
+- **Persistence**: `localStorage`
+- **Fonts**: Outfit + Inter (Google Fonts)
+
+---
+
+## 📄 License
+
+MIT

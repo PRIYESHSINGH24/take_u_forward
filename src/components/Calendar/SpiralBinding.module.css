@@ -1,0 +1,89 @@
+.binding {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 16px;
+  background: linear-gradient(180deg, #F0ECE8, #E4DED8);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .binding {
+  background: linear-gradient(180deg, #2A2845, #1E1C32);
+}
+
+.ring {
+  width: 14px;
+  height: 14px;
+  border: 2.5px solid #B0AAA2;
+  border-radius: 50%;
+  background: transparent;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform var(--transition-fast);
+}
+
+.ring:hover {
+  transform: scale(1.15);
+}
+
+[data-theme="dark"] .ring {
+  border-color: #555270;
+}
+
+.ring::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: #C8C2BA;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+[data-theme="dark"] .ring::after {
+  background: #4A4768;
+}
+
+/* Hook */
+.hook {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.hookTriangle {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 10px solid #9A9490;
+  margin: 0 auto;
+}
+
+.hookLine {
+  width: 2px;
+  height: 7px;
+  background: #9A9490;
+  margin: 0 auto;
+  border-radius: 1px;
+}
+
+@media (max-width: 480px) {
+  .binding {
+    gap: 3px;
+    padding: 5px 10px;
+  }
+  .ring {
+    width: 11px;
+    height: 11px;
+    border-width: 2px;
+  }
+}

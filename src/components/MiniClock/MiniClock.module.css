@@ -1,0 +1,65 @@
+.clockWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  gap: 8px;
+  font-family: var(--font-heading);
+  animation: slideInRight 0.5s ease both;
+}
+
+.time {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+  display: inline-block;
+  margin: 0 1px;
+}
+
+.ampm {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-left: 1.5px solid var(--border-light);
+  padding-left: 8px;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@media (max-width: 480px) {
+  .clockWrapper {
+    padding: 4px 10px;
+    gap: 6px;
+  }
+  .time {
+    font-size: 0.85rem;
+  }
+  .ampm {
+    font-size: 0.6rem;
+  }
+  .date {
+    display: none; /* Hide date on very small screens since calendar is right there */
+  }
+}
