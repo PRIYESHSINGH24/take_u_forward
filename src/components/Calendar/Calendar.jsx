@@ -13,7 +13,6 @@ import useNotes from '@/hooks/useNotes';
 import useStickers from '@/hooks/useStickers';
 import monthThemes from '@/data/monthThemes';
 import StickerDrawer from './StickerDrawer';
-import StickerDrawer from './StickerDrawer';
 
 const pageVariants = {
   enter: (dir) => ({
